@@ -6,14 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Visualização de Acidentes em POA - 2016</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-    <link rel="stylesheet" href="./js/dashboard.css">
     <link rel="stylesheet" href="./js/leaflet.css">
-    <style>
-        #map { width: 800px; height: 600px; }
-        body { font: 16px/1.4 "Helvetica Neue", Arial, sans-serif; margin: 0; }
-        .ghbtns { position: relative; top: 4px; margin-left: 5px; }
-        a { color: #0077ff; }
-    </style>
+    <link rel="stylesheet" href="./js/dashboard.css">
   </head>
   <body>
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
@@ -33,22 +27,17 @@
           </div>
         </nav>
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">Dashboard</h1>
-            <div class="btn-toolbar mb-2 mb-md-0">
-              <div class="btn-group mr-2">
-                <button class="btn btn-sm btn-outline-secondary">Share</button>
-                <button class="btn btn-sm btn-outline-secondary">Export</button>
-              </div>
-              <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                <span data-feather="calendar"></span>
-                This week
-              </button>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-0">
+          <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+              <a class="nav-item nav-link active" id="nav-map-tab" data-toggle="tab" href="#nav-map" role="tab" aria-controls="nav-map" aria-selected="true">Mapa</a>
+              <a class="nav-item nav-link" id="nav-hours-tab" data-toggle="tab" href="#nav-hours" role="tab" aria-controls="nav-hours" aria-selected="false">Horários</a>
             </div>
+          </nav>
+          <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-map" role="tabpanel" aria-labelledby="nav-map-tab"><div id="map"></div></div>
+            <div class="tab-pane fade" id="nav-hours" role="tabpanel" aria-labelledby="nav-hours-tab">TODO heatmap block: http://bl.ocks.org/nbremer/62cf60e116ae821c06602793d265eaf6</div>
           </div>
-
-          <div id="map"></div>
         </main>
       </div>
     </div>
@@ -66,15 +55,23 @@
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(map);
 
-      geoJson2heat = function(geojson) {
+      /*geoJson2heat = function(geojson) {
         return geojson.features.map(function(feature) {
           return [parseFloat(feature.geometry.coordinates[1]), parseFloat(feature.geometry.coordinates[0])];
         });
+      }*/
+
+      geoJson2heat = function(geojson) {
+        const bicicleta = (row) => row.properties['FIELD29'] > 0;
+        const coordinates = (feature) => [parseFloat(feature.geometry.coordinates[1]), parseFloat(feature.geometry.coordinates[0])];
+
+        return geojson.features.filter(bicicleta).map(coordinates);
       }
 
       function addObsToMap(obs, map) {
         var geoData = geoJson2heat(obs, 1);
-        var heatMap = new L.heatLayer(geoData,{radius: 12, blur: 15, maxZoom: 17});
+        //var heatMap = new L.heatLayer(geoData,{radius: 12, blur: 15, maxZoom: 17});
+        var heatMap = new L.heatLayer(geoData,{radius: 20, blur: 15, maxZoom: 17});
         map.addLayer(heatMap);
       }
 
