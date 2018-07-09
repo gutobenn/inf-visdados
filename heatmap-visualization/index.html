@@ -27,23 +27,23 @@
 	    <span id="selectedYear"></span><br><br>
 
 	    <h5>Veículos</h5>
-	    <label>Auto <input type="checkbox" value="FIELD20" id="autoCheckbox" class="inputFilter" checked></label><br>
-	    <label>Taxi <input type="checkbox" value="FIELD21" id="taxiCheckbox" class="inputFilter" checked></label><br>
-	    <label>Lotação <input type="checkbox" value="FIELD22" id="lotacaoCheckbox" class="inputFilter" checked></label><br>
-	    <label>Ônibus Urbano<input type="checkbox" value="FIELD23" id="onibus_urbCheckbox" class="inputFilter" checked></label><br>
-	    <label>Onibus Metropolitano <input type="checkbox" value="FIELD24" id="onibus_metCheckbox" class="inputFilter" checked></label><br>
-	    <label>Onibus (outros) <input type="checkbox" value="FIELD25" id="onibus_intCheckbox" class="inputFilter" checked></label><br>
-	    <label>Caminhão <input type="checkbox" value="FIELD26" id="caminhaoCheckbox" class="inputFilter" checked></label><br>
-	    <label>Moto <input type="checkbox" value="FIELD27" id="motoCheckbox" class="inputFilter" checked></label><br>
-	    <label>Carroça <input type="checkbox" value="FIELD28" id="carrocaCheckbox" class="inputFilter" checked></label><br>
-	    <label>Bicicleta <input type="checkbox" value="FIELD29" id="bicicletaCheckbox" class="inputFilter" checked></label><br><br>
+	    <label>Auto <input type="checkbox" value="AUTO" id="autoCheckbox" class="inputFilter" checked></label><br>
+	    <label>Taxi <input type="checkbox" value="TAXI" id="taxiCheckbox" class="inputFilter" checked></label><br>
+	    <label>Lotação <input type="checkbox" value="LOTACAO" id="lotacaoCheckbox" class="inputFilter" checked></label><br>
+	    <label>Ônibus Urbano<input type="checkbox" value="ONIBUS_URB" id="onibus_urbCheckbox" class="inputFilter" checked></label><br>
+	    <label>Onibus Metropolitano <input type="checkbox" value="ONIBUS_MET" id="onibus_metCheckbox" class="inputFilter" checked></label><br>
+	    <label>Onibus (outros) <input type="checkbox" value="ONIBUS_INT" id="onibus_intCheckbox" class="inputFilter" checked></label><br>
+	    <label>Caminhão <input type="checkbox" value="CAMINHAO" id="caminhaoCheckbox" class="inputFilter" checked></label><br>
+	    <label>Moto <input type="checkbox" value="MOTO" id="motoCheckbox" class="inputFilter" checked></label><br>
+	    <label>Carroça <input type="checkbox" value="CARROCA" id="carrocaCheckbox" class="inputFilter" checked></label><br>
+	    <label>Bicicleta <input type="checkbox" value="BICICLETA" id="bicicletaCheckbox" class="inputFilter" checked></label><br><br>
 
 	    <h5>Acidentes</h5>
-	    <label>Feridos <input type="checkbox" value="FIELD15" id="feridosCheckbox" class="inputFilter" checked></label><br>
-	    <label>Feridos Graves <input type="checkbox" value="FIELD16" id="feridosGravesCheckbox" class="inputFilter" checked></label><br>
-	    <label>Mortes <input type="checkbox" value="FIELD17" id="mortesCheckbox" class="inputFilter" checked></label><br>
-	    <label>Mortes Posteriores <input type="checkbox" value="FIELD18" id="mortesPostCheckbox" class="inputFilter" checked></label><br>
-	    <label>Fatais <input type="checkbox" value="FIELD19" id="fataisCheckbox" class="inputFilter" checked></label><br>
+	    <label>Feridos <input type="checkbox" value="FERIDOS" id="feridosCheckbox" class="inputFilter" checked></label><br>
+	    <label>Feridos Graves <input type="checkbox" value="FERIDOS_GR" id="feridosGravesCheckbox" class="inputFilter" checked></label><br>
+	    <label>Mortes <input type="checkbox" value="MORTES" id="mortesCheckbox" class="inputFilter" checked></label><br>
+	    <label>Mortes Posteriores <input type="checkbox" value="MORTE_POST" id="mortesPostCheckbox" class="inputFilter" checked></label><br>
+	    <label>Fatais <input type="checkbox" value="FATAIS" id="fataisCheckbox" class="inputFilter" checked></label><br>
           </div>
         </nav>
 
@@ -99,7 +99,6 @@
           if (inputFilters[i].checked)
             arrayFiltersValues.push(inputFilters[i].value);
         }
-        console.log(arrayFiltersValues);
 
         const customFilter = (row) => arrayFiltersValues.some((column) => row.properties[column] > 0);
         const coordinates = (feature) => [parseFloat(feature.geometry.coordinates[1]), parseFloat(feature.geometry.coordinates[0])];
