@@ -4,14 +4,14 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Visualização de Acidentes em POA - 2016</title>
+    <title>Visualização de Acidentes em POA</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     <link rel="stylesheet" href="./js/leaflet.css">
     <link rel="stylesheet" href="./js/dashboard.css">
   </head>
   <body>
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Acidentes em POA - 2016</a>
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Acidentes em POA</a>
     </nav>
 
     <div class="container-fluid">
@@ -20,10 +20,30 @@
           <div class="sidebar-sticky">
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mb-1 text-muted">
               <span>Filtrar</span>
-              <a class="d-flex align-items-center text-muted" href="#">
-                <span data-feather="plus-circle"></span>
-              </a>
-            </h6>
+	    </h6>
+
+	    <h5>Ano</h5>
+            <input type="range" min="2007" max="2016" value="2016" class="slider" id="yearRange">
+	    <span id="selectedYear"></span><br><br>
+
+	    <h5>Veículos</h5>
+	    <label>Auto <input type="checkbox" value="FIELD20" id="autoCheckbox" class="inputFilter" checked></label><br>
+	    <label>Taxi <input type="checkbox" value="FIELD21" id="taxiCheckbox" class="inputFilter" checked></label><br>
+	    <label>Lotação <input type="checkbox" value="FIELD22" id="lotacaoCheckbox" class="inputFilter" checked></label><br>
+	    <label>Ônibus Urbano<input type="checkbox" value="FIELD23" id="onibus_urbCheckbox" class="inputFilter" checked></label><br>
+	    <label>Onibus Metropolitano <input type="checkbox" value="FIELD24" id="onibus_metCheckbox" class="inputFilter" checked></label><br>
+	    <label>Onibus (outros) <input type="checkbox" value="FIELD25" id="onibus_intCheckbox" class="inputFilter" checked></label><br>
+	    <label>Caminhão <input type="checkbox" value="FIELD26" id="caminhaoCheckbox" class="inputFilter" checked></label><br>
+	    <label>Moto <input type="checkbox" value="FIELD27" id="motoCheckbox" class="inputFilter" checked></label><br>
+	    <label>Carroça <input type="checkbox" value="FIELD28" id="carrocaCheckbox" class="inputFilter" checked></label><br>
+	    <label>Bicicleta <input type="checkbox" value="FIELD29" id="bicicletaCheckbox" class="inputFilter" checked></label><br><br>
+
+	    <h5>Acidentes</h5>
+	    <label>Feridos <input type="checkbox" value="FIELD15" id="feridosCheckbox" class="inputFilter" checked></label><br>
+	    <label>Feridos Graves <input type="checkbox" value="FIELD16" id="feridosGravesCheckbox" class="inputFilter" checked></label><br>
+	    <label>Mortes <input type="checkbox" value="FIELD17" id="mortesCheckbox" class="inputFilter" checked></label><br>
+	    <label>Mortes Posteriores <input type="checkbox" value="FIELD18" id="mortesPostCheckbox" class="inputFilter" checked></label><br>
+	    <label>Fatais <input type="checkbox" value="FIELD19" id="fataisCheckbox" class="inputFilter" checked></label><br>
           </div>
         </nav>
 
@@ -47,8 +67,25 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
     <script src="./js/leaflet.js"></script>
     <script src="./js/leaflet-heat.js"></script>
+    <script src="./acidentes-2007.js"></script>
+    <script src="./acidentes-2008.js"></script>
+    <script src="./acidentes-2009.js"></script>
+    <script src="./acidentes-2010.js"></script>
+    <script src="./acidentes-2011.js"></script>
+    <script src="./acidentes-2012.js"></script>
+    <script src="./acidentes-2013.js"></script>
+    <script src="./acidentes-2014.js"></script>
+    <script src="./acidentes-2015.js"></script>
     <script src="./acidentes-2016.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
+      var anos = {"2016": ACIDENTES_DATA_2016, "2015": ACIDENTES_DATA_2015, "2014": ACIDENTES_DATA_2014, "2013": ACIDENTES_DATA_2014, "2012": ACIDENTES_DATA_2012, "2011": ACIDENTES_DATA_2011, "2010": ACIDENTES_DATA_2010, "2009": ACIDENTES_DATA_2009, "2008": ACIDENTES_DATA_2008, "2007": ACIDENTES_DATA_2007};
+      var heat = "";
+
+      var slider = document.getElementById("yearRange");
+      var output = document.getElementById("selectedYear");
+      output.innerHTML = slider.value; // Display the default slider value
+
       var map = L.map('map').setView([-30.0346471, -51.2176584], 12);
 
       var tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -56,28 +93,47 @@
       }).addTo(map);
 
       geoJson2heat = function(geojson) {
-        return geojson.features.map(function(feature) {
-          return [parseFloat(feature.geometry.coordinates[1]), parseFloat(feature.geometry.coordinates[0])];
-        });
-      }
+        var inputFilters = document.getElementsByClassName("inputFilter");
+        var arrayFiltersValues = [];
+        for (var i = 0; i < inputFilters.length; i++) {
+          if (inputFilters[i].checked)
+            arrayFiltersValues.push(inputFilters[i].value);
+        }
+        console.log(arrayFiltersValues);
 
-      /*geoJson2heat = function(geojson) {
-        const bicicleta = (row) => row.properties['FIELD29'] > 0;
+        const customFilter = (row) => arrayFiltersValues.some((column) => row.properties[column] > 0);
         const coordinates = (feature) => [parseFloat(feature.geometry.coordinates[1]), parseFloat(feature.geometry.coordinates[0])];
 
-        return geojson.features.filter(bicicleta).map(coordinates);
-      }*/
+        return geojson.features.filter(customFilter).map(coordinates);
+      }
 
       function addObsToMap(obs, map) {
         var geoData = geoJson2heat(obs, 1);
         var heatMap = new L.heatLayer(geoData,{radius: 12, blur: 15, maxZoom: 17});
         //var heatMap = new L.heatLayer(geoData,{radius: 20, blur: 15, maxZoom: 17});
         map.addLayer(heatMap);
+        return heatMap;
       }
 
-      var heat = addObsToMap(ACIDENTES_DATA, map);
-      //addressPoints = addressPoints.map(function (p) { return [p[0], p[1]]; });
-      //var heat = L.heatLayer(addressPoints).addTo(map);
+      function loadYear() {
+        var year = slider.value;
+	map.removeLayer(heat);
+        heat = addObsToMap(anos[year], map);
+        //addressPoints = addressPoints.map(function (p) { return [p[0], p[1]]; });
+        //var heat = L.heatLayer(addressPoints).addTo(map);
+      }
+      // Update the current slider value (each time you drag the slider handle)
+      slider.oninput = function() {
+        output.innerHTML = this.value;
+        loadYear();
+      }
+
+      inputFilterFields = document.getElementsByClassName("inputFilter");
+      for (var i = 0; i < inputFilterFields.length; i++) {
+	inputFilterFields[i].addEventListener('click', function () {
+          loadYear();
+	});
+      }
     </script>
   </body>
 </html>
