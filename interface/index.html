@@ -8,179 +8,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     <link rel="stylesheet" href="./js/leaflet.css">
     <link rel="stylesheet" href="./js/dashboard.css">
-    <style type="text/css">
-      #selectedYear {
-        width: 100%;
-        text-align: center;
-        margin-bottom: 5px;
-      }
-      .sidebar-sticky {
-        padding: 0px 15px;
-        font-size: 14.5px;
-      }
-      .sidebar-sticky h5 {
-        margin-top: 15px;
-        text-transform: uppercase;
-        font-size: 1.4rem;
-        font-weight: bold;
-        letter-spacing: 0.15rem;
-      }
-      .sidebar-sticky label {
-        margin-bottom: 0.3rem;
-      }
-      .sidebar-sticky label input {
-        vertical-align: bottom;
-        position: relative;
-        top: -3px;
-        margin-right: 3px;
-      }
-      .sidebar-sticky label input:focus,
-      .sidebar-sticky input[type=range]:focus {
-        outline: none;
-      }
-      .sidebar-sticky label:hover {
-        cursor: pointer;
-      }
-	input[type=range] {
-	  -webkit-appearance: none;
-	  margin: 5px 0;
-	  width: 100%;
-	}
-	input[type=range]:focus {
-	  outline: none;
-	}
-	input[type=range]::-webkit-slider-runnable-track {
-	  width: 100%;
-	  height: 8.4px;
-	  cursor: pointer;
-	  animate: 0.2s;
-	  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-	  background: #3071a9;
-	  border-radius: 1.3px;
-	  border: 0.2px solid #010101;
-	}
-	input[type=range]::-webkit-slider-thumb {
-	  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-	  border: 1px solid #000000;
-	  height: 22px;
-	  width: 10px;
-	  border-radius: 3px;
-	  background: #ffffff;
-	  cursor: pointer;
-	  -webkit-appearance: none;
-	  margin-top: -14px;
-	}
-	input[type=range]:focus::-webkit-slider-runnable-track {
-	  background: #367ebd;
-	}
-	input[type=range]::-moz-range-track {
-	  width: 100%;
-	  height: 6.4px;
-	  cursor: pointer;
-	  animate: 0.2s;
-	  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-	  background: #3071a9;
-	  border-radius: 1.3px;
-	  border: 0.2px solid #010101;
-	}
-	input[type=range]::-moz-range-thumb {
-	  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-	  border: 1px solid #000000;
-	  height: 22px;
-	  width: 10px;
-	  border-radius: 3px;
-	  background: #ffffff;
-	  cursor: pointer;
-	}
-	input[type=range]::-ms-track {
-	  width: 100%;
-	  height: 6.4px;
-	  cursor: pointer;
-	  animate: 0.2s;
-	  background: transparent;
-	  border-color: transparent;
-	  border-width: 16px 0;
-	  color: transparent;
-	}
-	input[type=range]::-ms-fill-lower {
-	  background: #2a6495;
-	  border: 0.2px solid #010101;
-	  border-radius: 2.6px;
-	  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-	}
-	input[type=range]::-ms-fill-upper {
-	  background: #3071a9;
-	  border: 0.2px solid #010101;
-	  border-radius: 2.6px;
-	  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-	}
-	input[type=range]::-ms-thumb {
-	  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-	  border: 1px solid #000000;
-	  height: 22px;
-	  width: 10px;
-	  border-radius: 3px;
-	  background: #ffffff;
-	  cursor: pointer;
-	}
-	input[type=range]:focus::-ms-fill-lower {
-	  background: #3071a9;
-	}
-	input[type=range]:focus::-ms-fill-upper {
-	  background: #367ebd;
-	}
-
-        #trafficAccidents .timeLabel, .dayLabel {
-		    font-size: 1.6rem;
-		    fill: #AAAAAA;
-		    font-weight: 300;
-		}
-
-		#trafficAccidents .text.axis-workweek, text.axis-worktime {
-		    fill: #404040;
-		    font-weight: 400;
-		}
-
-		#trafficAccidents .title {
-		    font-size: 2.8rem;
-		    fill: #4F4F4F;
-		    font-weight: 300;
-		}
-
-		#trafficAccidents .subtitle {
-		    font-size: 1.4rem;
-		    fill: #AAAAAA;
-		    font-weight: 300;
-		}
-		  
-		#trafficAccidents .credit {
-		    font-size: 1.2rem;
-		    fill: #AAAAAA;
-		    font-weight: 400;
-		}
-
-		#trafficAccidents .axis path, .axis tick, .axis line {
-		      fill: none;
-		      stroke: none;
-		  }
-
-		#trafficAccidents text {
-		      font-size: 1.2rem;
-		      fill: #AAAAAA;
-		      font-weight: 400;
-		}
-
-		#trafficAccidents .legendTitle {
-		      font-size: 1.6rem;
-		      fill: #4F4F4F;
-		      font-weight: 300;
-		}
-
-
-
-      .navbar-brand { font-size: 1.85rem; }
-     
-    </style>
+    <link rel="stylesheet" href="./css/style.css">
   </head>
   <body>
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
@@ -224,8 +52,14 @@
             </div>
           </nav>
           <div class="tab-content" id="nav-tabContent">
-            <div class="tab-pane fade show active" id="nav-map" role="tabpanel" aria-labelledby="nav-map-tab"><div id="map"></div></div>
-            <div class="tab-pane fade" id="nav-hours" role="tabpanel" aria-labelledby="nav-hours-tab"><div id="trafficAccidentsContainer"><div id="trafficAccidents"></div></div>TODO heatmap block: http://bl.ocks.org/nbremer/62cf60e116ae821c06602793d265eaf6</div>
+            <div class="tab-pane fade show active" id="nav-map" role="tabpanel" aria-labelledby="nav-map-tab">
+              <div id="map"></div>
+	    </div>
+            <div class="tab-pane fade" id="nav-hours" role="tabpanel" aria-labelledby="nav-hours-tab">
+              <div id="trafficAccidentsContainer">
+                <div id="trafficAccidents"></div>
+              </div>
+            </div>	      
           </div>
         </main>
       </div>
@@ -235,35 +69,54 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="./js/leaflet.js"></script>
     <script src="./js/leaflet-heat.js"></script>
-    <script src="./d3_block_script.js"></script>
-    <script src="./acidentes-2007.js"></script>
-    <script src="./acidentes-2008.js"></script>
-    <script src="./acidentes-2009.js"></script>
-    <script src="./acidentes-2010.js"></script>
-    <script src="./acidentes-2011.js"></script>
-    <script src="./acidentes-2012.js"></script>
-    <script src="./acidentes-2013.js"></script>
-    <script src="./acidentes-2014.js"></script>
-    <script src="./acidentes-2015.js"></script>
-    <script src="./acidentes-2016.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="./js/d3_block_script.js"></script>
+    <script src="./js/acidentes-2007.js"></script>
+    <script src="./js/acidentes-2008.js"></script>
+    <script src="./js/acidentes-2009.js"></script>
+    <script src="./js/acidentes-2010.js"></script>
+    <script src="./js/acidentes-2011.js"></script>
+    <script src="./js/acidentes-2012.js"></script>
+    <script src="./js/acidentes-2013.js"></script>
+    <script src="./js/acidentes-2014.js"></script>
+    <script src="./js/acidentes-2015.js"></script>
+    <script src="./js/acidentes-2016.js"></script>
     <script>
+      // Index mapping
       var anos = {"2016": ACIDENTES_DATA_2016, "2015": ACIDENTES_DATA_2015, "2014": ACIDENTES_DATA_2014, "2013": ACIDENTES_DATA_2014, "2012": ACIDENTES_DATA_2012, "2011": ACIDENTES_DATA_2011, "2010": ACIDENTES_DATA_2010, "2009": ACIDENTES_DATA_2009, "2008": ACIDENTES_DATA_2008, "2007": ACIDENTES_DATA_2007};
-      var heat = "";
 
+      // Global variables
+      var heat = ""; // store heatmap layer
+      var accidents = []; // used by heatmap block
+
+      // Elements on page
       var slider = document.getElementById("yearRange");
       var output = document.getElementById("selectedYear");
-      output.innerHTML = slider.value; // Display the default slider value
-
       var map = L.map('map').setView([-30.0346471, -51.2176584], 12);
-      var accidents = [];
-
       var tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(map);
 
+
+      /* EVENT LISTENERS: */
+      // - When selected year is changed
+      slider.oninput = function() {
+        output.innerHTML = this.value;
+        loadYear();
+      }
+      // - When a filter checkbox is toggled
+      inputFilterFields = document.getElementsByClassName("inputFilter");
+      for (var i = 0; i < inputFilterFields.length; i++) {
+	inputFilterFields[i].addEventListener('click', function () {
+          loadYear();
+	});
+      }
+
+
+      /* DATA PROCESSING */
+      // Return data according to selected filters
       getFilteredValues = function(geojson) {
         var inputFilters = document.getElementsByClassName("inputFilter");
         var arrayFiltersValues = [];
@@ -273,15 +126,25 @@
         }
 
         const customFilter = (row) => arrayFiltersValues.some((column) => row.properties[column] > 0);
-
         return geojson.features.filter(customFilter);
       }
 
+      // Return coordinates of points according to selected filters.
       geoJson2heat = function(geojson) {
         const coordinates = (feature) => [parseFloat(feature.geometry.coordinates[1]), parseFloat(feature.geometry.coordinates[0])];
         return getFilteredValues(geojson).map(coordinates);
       }
 
+      // Add heatmap layer to map
+      function addObsToMap(obs, map) {
+        var geoData = geoJson2heat(obs, 1);
+        var heatMap = new L.heatLayer(geoData,{radius: 12, blur: 15, maxZoom: 17});
+        //var heatMap = new L.heatLayer(geoData,{radius: 20, blur: 15, maxZoom: 17});
+        map.addLayer(heatMap);
+        return heatMap;
+      }
+
+      // Process data for Time and Date Heat Map Block
       blockHeatData = function(geojson) {
         const coordinates = (feature) => [parseFloat(feature.geometry.coordinates[1]), parseFloat(feature.geometry.coordinates[0])];
         const days = ["SEGUNDA-FEIRA", "TERCA-FEIRA", "QUARTA-FEIRA", "QUINTA-FEIRA", "SEXTA-FEIRA", "SABADO", "DOMINGO"];
@@ -305,14 +168,7 @@
         loadHeatBlock();
       }
 
-      function addObsToMap(obs, map) {
-        var geoData = geoJson2heat(obs, 1);
-        var heatMap = new L.heatLayer(geoData,{radius: 12, blur: 15, maxZoom: 17});
-        //var heatMap = new L.heatLayer(geoData,{radius: 20, blur: 15, maxZoom: 17});
-        map.addLayer(heatMap);
-        return heatMap;
-      }
-
+      // Reprocess all data when year or filters are changed.
       function loadYear() {
         var year = slider.value;
 	map.removeLayer(heat);
@@ -321,17 +177,10 @@
         blockHeatData(anos[year]);
       }
 
-      slider.oninput = function() {
-        output.innerHTML = this.value;
-        loadYear();
-      }
-
-      inputFilterFields = document.getElementsByClassName("inputFilter");
-      for (var i = 0; i < inputFilterFields.length; i++) {
-	inputFilterFields[i].addEventListener('click', function () {
-          loadYear();
-	});
-      }
+      // on page load
+      slider.value = "2016";
+      output.innerHTML = slider.value;
+      loadYear();
     </script>
   </body>
 </html>
