@@ -8,6 +8,128 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     <link rel="stylesheet" href="./js/leaflet.css">
     <link rel="stylesheet" href="./js/dashboard.css">
+    <style type="text/css">
+      #selectedYear {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 5px;
+      }
+      .sidebar-sticky {
+        padding: 0px 15px;
+        font-size: 14.5px;
+      }
+      .sidebar-sticky h5 {
+        margin-top: 15px;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        font-weight: bold;
+        letter-spacing: 0.15rem;
+      }
+      .sidebar-sticky label {
+        margin-bottom: 0.3rem;
+      }
+      .sidebar-sticky label input {
+        vertical-align: bottom;
+        position: relative;
+        top: -3px;
+        margin-right: 3px;
+      }
+      .sidebar-sticky label input:focus,
+      .sidebar-sticky input[type=range]:focus {
+        outline: none;
+      }
+      .sidebar-sticky label:hover {
+        cursor: pointer;
+      }
+	input[type=range] {
+	  -webkit-appearance: none;
+	  margin: 5px 0;
+	  width: 100%;
+	}
+	input[type=range]:focus {
+	  outline: none;
+	}
+	input[type=range]::-webkit-slider-runnable-track {
+	  width: 100%;
+	  height: 8.4px;
+	  cursor: pointer;
+	  animate: 0.2s;
+	  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+	  background: #3071a9;
+	  border-radius: 1.3px;
+	  border: 0.2px solid #010101;
+	}
+	input[type=range]::-webkit-slider-thumb {
+	  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+	  border: 1px solid #000000;
+	  height: 22px;
+	  width: 10px;
+	  border-radius: 3px;
+	  background: #ffffff;
+	  cursor: pointer;
+	  -webkit-appearance: none;
+	  margin-top: -14px;
+	}
+	input[type=range]:focus::-webkit-slider-runnable-track {
+	  background: #367ebd;
+	}
+	input[type=range]::-moz-range-track {
+	  width: 100%;
+	  height: 6.4px;
+	  cursor: pointer;
+	  animate: 0.2s;
+	  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+	  background: #3071a9;
+	  border-radius: 1.3px;
+	  border: 0.2px solid #010101;
+	}
+	input[type=range]::-moz-range-thumb {
+	  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+	  border: 1px solid #000000;
+	  height: 22px;
+	  width: 10px;
+	  border-radius: 3px;
+	  background: #ffffff;
+	  cursor: pointer;
+	}
+	input[type=range]::-ms-track {
+	  width: 100%;
+	  height: 6.4px;
+	  cursor: pointer;
+	  animate: 0.2s;
+	  background: transparent;
+	  border-color: transparent;
+	  border-width: 16px 0;
+	  color: transparent;
+	}
+	input[type=range]::-ms-fill-lower {
+	  background: #2a6495;
+	  border: 0.2px solid #010101;
+	  border-radius: 2.6px;
+	  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+	}
+	input[type=range]::-ms-fill-upper {
+	  background: #3071a9;
+	  border: 0.2px solid #010101;
+	  border-radius: 2.6px;
+	  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+	}
+	input[type=range]::-ms-thumb {
+	  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+	  border: 1px solid #000000;
+	  height: 22px;
+	  width: 10px;
+	  border-radius: 3px;
+	  background: #ffffff;
+	  cursor: pointer;
+	}
+	input[type=range]:focus::-ms-fill-lower {
+	  background: #3071a9;
+	}
+	input[type=range]:focus::-ms-fill-upper {
+	  background: #367ebd;
+	}
+    </style>
   </head>
   <body>
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
@@ -18,32 +140,28 @@
       <div class="row">
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
           <div class="sidebar-sticky">
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mb-1 text-muted">
-              <span>Filtrar</span>
-	    </h6>
-
 	    <h5>Ano</h5>
             <input type="range" min="2007" max="2016" value="2016" class="slider" id="yearRange">
-	    <span id="selectedYear"></span><br><br>
+	    <div id="selectedYear"></div>
 
 	    <h5>Veículos</h5>
-	    <label>Auto <input type="checkbox" value="AUTO" id="autoCheckbox" class="inputFilter" checked></label><br>
-	    <label>Taxi <input type="checkbox" value="TAXI" id="taxiCheckbox" class="inputFilter" checked></label><br>
-	    <label>Lotação <input type="checkbox" value="LOTACAO" id="lotacaoCheckbox" class="inputFilter" checked></label><br>
-	    <label>Ônibus Urbano<input type="checkbox" value="ONIBUS_URB" id="onibus_urbCheckbox" class="inputFilter" checked></label><br>
-	    <label>Onibus Metropolitano <input type="checkbox" value="ONIBUS_MET" id="onibus_metCheckbox" class="inputFilter" checked></label><br>
-	    <label>Onibus (outros) <input type="checkbox" value="ONIBUS_INT" id="onibus_intCheckbox" class="inputFilter" checked></label><br>
-	    <label>Caminhão <input type="checkbox" value="CAMINHAO" id="caminhaoCheckbox" class="inputFilter" checked></label><br>
-	    <label>Moto <input type="checkbox" value="MOTO" id="motoCheckbox" class="inputFilter" checked></label><br>
-	    <label>Carroça <input type="checkbox" value="CARROCA" id="carrocaCheckbox" class="inputFilter" checked></label><br>
-	    <label>Bicicleta <input type="checkbox" value="BICICLETA" id="bicicletaCheckbox" class="inputFilter" checked></label><br><br>
+	    <label><input type="checkbox" value="AUTO" id="autoCheckbox" class="inputFilter" checked> Auto</label><br>
+	    <label><input type="checkbox" value="TAXI" id="taxiCheckbox" class="inputFilter" checked> Táxi</label><br>
+	    <label><input type="checkbox" value="LOTACAO" id="lotacaoCheckbox" class="inputFilter" checked> Lotação</label><br>
+	    <label><input type="checkbox" value="ONIBUS_URB" id="onibus_urbCheckbox" class="inputFilter" checked> Ônibus Urbano</label><br>
+	    <label><input type="checkbox" value="ONIBUS_MET" id="onibus_metCheckbox" class="inputFilter" checked> Ônibus Metropolitano</label><br>
+	    <label><input type="checkbox" value="ONIBUS_INT" id="onibus_intCheckbox" class="inputFilter" checked> Ônibus (outros)</label><br>
+	    <label><input type="checkbox" value="CAMINHAO" id="caminhaoCheckbox" class="inputFilter" checked> Caminhão</label><br>
+	    <label><input type="checkbox" value="MOTO" id="motoCheckbox" class="inputFilter" checked> Moto</label><br>
+	    <label><input type="checkbox" value="CARROCA" id="carrocaCheckbox" class="inputFilter" checked> Carroça</label><br>
+	    <label><input type="checkbox" value="BICICLETA" id="bicicletaCheckbox" class="inputFilter" checked> Bicicleta</label><br><br>
 
 	    <h5>Acidentes</h5>
-	    <label>Feridos <input type="checkbox" value="FERIDOS" id="feridosCheckbox" class="inputFilter" checked></label><br>
-	    <label>Feridos Graves <input type="checkbox" value="FERIDOS_GR" id="feridosGravesCheckbox" class="inputFilter" checked></label><br>
-	    <label>Mortes <input type="checkbox" value="MORTES" id="mortesCheckbox" class="inputFilter" checked></label><br>
-	    <label>Mortes Posteriores <input type="checkbox" value="MORTE_POST" id="mortesPostCheckbox" class="inputFilter" checked></label><br>
-	    <label>Fatais <input type="checkbox" value="FATAIS" id="fataisCheckbox" class="inputFilter" checked></label><br>
+	    <label><input type="checkbox" value="FERIDOS" id="feridosCheckbox" class="inputFilter" checked> Feridos</label><br>
+	    <label><input type="checkbox" value="FERIDOS_GR" id="feridosGravesCheckbox" class="inputFilter" checked> Feridos Graves</label><br>
+	    <label><input type="checkbox" value="MORTES" id="mortesCheckbox" class="inputFilter" checked> Mortes</label><br>
+	    <label><input type="checkbox" value="MORTE_POST" id="mortesPostCheckbox" class="inputFilter" checked> Morte Posterior</label><br>
+	    <label><input type="checkbox" value="FATAIS" id="fataisCheckbox" class="inputFilter" checked> Fatais</label><br>
           </div>
         </nav>
 
