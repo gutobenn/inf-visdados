@@ -62,7 +62,12 @@
               </div>
             </div>
             <div class="tab-pane fade" id="nav-summary" role="tabpanel" aria-labelledby="nav-summary-tab">
-              <div id="summary"></div>
+              <div id="summary">
+                <div id="typeOfCar"></div>
+                <div id="typeOfWeather"></div>
+                <div id="typeOfRegion"></div>
+                <div id="typeOfLocal"></div>
+              </div>
             </div>	      
           </div>
         </main>
@@ -182,6 +187,54 @@
         blockHeatData(anos[year]);
       }
 
+      function generateWeatherConditionPlot(){
+
+        var data = [{
+          values: [3411, 24696, 3591],
+          labels: ['Chuvoso', 'Bom', 'Nublado'],
+          type: 'pie'
+        }];
+
+        var layout = {
+          title: 'Acidentes separados por condição climática (Agregado de 2015 e 2016)',
+        };
+
+        Plotly.newPlot('typeOfWeather', data, layout);
+
+      }
+
+      function generateRegionPlot(){
+
+        var data = [{
+          values: [9900, 7238, 9282, 5270, 8],
+          labels: ['Norte', 'Sul', 'Leste', 'Centro', 'Não identificado'],
+          type: 'pie'
+        }];
+
+        var layout = {
+          title: 'Acidentes separados por região da cidade (Agregado de 2015 e 2016)',
+        };
+
+        Plotly.newPlot('typeOfRegion', data, layout);
+
+      }
+
+      function generateLocalPlot(){
+
+        var data = [{
+          values: [22761, 8932],
+          labels: ['Logradouro', 'Cruzamento'],
+          type: 'pie'
+        }];
+
+        var layout = {
+          title: 'Acidentes separados por local (Agregado de 2015 e 2016)',
+        };
+
+        Plotly.newPlot('typeOfLocal', data, layout);
+
+      }
+
       function generateStackBar() {
 
         var accidents2016 = [17513, 1134, 275, 786, 154, 114, 1419, 2957, 0, 145];
@@ -281,7 +334,7 @@
 
         var layout = {title: 'Acidentes separados por tipo de veículo', barmode: 'stack', xaxis: {type: 'category', title: 'Ano de ocorrência dos acidentes'}, yaxis: {title: 'Número de acidentes'}};
 
-        Plotly.newPlot('summary', data, layout);
+        Plotly.newPlot('typeOfCar', data, layout);
 
       }
 
@@ -289,6 +342,9 @@
       slider.value = "2016";
       output.innerHTML = slider.value;
       generateStackBar();
+      generateWeatherConditionPlot();
+      generateRegionPlot();
+      generateLocalPlot();
       loadYear();
     </script>
   </body>
