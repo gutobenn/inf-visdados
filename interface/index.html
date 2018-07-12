@@ -64,6 +64,7 @@
             <div class="tab-pane fade" id="nav-summary" role="tabpanel" aria-labelledby="nav-summary-tab">
               <div id="summary">
                 <div id="typeOfCar"></div>
+                <dir id="typeOfInjury"></dir>
                 <div id="typeOfWeather"></div>
                 <div id="typeOfRegion"></div>
                 <div id="typeOfLocal"></div>
@@ -235,6 +236,22 @@
 
       }
 
+      function generateTypeOfInjuryPlot(){
+
+        var data = [{
+          values: [11218, 433, 91, 96, 187],
+          labels: ['Feridos', 'Feridos Grave', 'Mortes', 'Mortes pós acidente', 'Fatais'],
+          type: 'pie'
+        }];
+
+        var layout = {
+          title: 'Acidentes separados por ferimento (Agregado de 2015 e 2016)',
+        };
+
+        Plotly.newPlot('typeOfInjury', data, layout);
+
+       }
+
       function generateStackBar() {
 
         var accidents2016 = [17513, 1134, 275, 786, 154, 114, 1419, 2957, 0, 145];
@@ -342,6 +359,7 @@
       slider.value = "2016";
       output.innerHTML = slider.value;
       generateStackBar();
+      generateTypeOfInjuryPlot();
       generateWeatherConditionPlot();
       generateRegionPlot();
       generateLocalPlot();
