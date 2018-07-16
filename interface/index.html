@@ -156,8 +156,9 @@
 
         var acidenteFiltersValues = [];
         for (var i = 0; i < inputFiltersAcidente.length; i++) {
-          if (!inputFiltersAcidente[i].checked)
+          if (!inputFiltersAcidente[i].checked && (inputFiltersAcidente[i].value != "FERIDOS_GR" || parseInt(output.value) >= 2013)){
             acidenteFiltersValues.push(inputFiltersAcidente[i].value);
+	  }
         }
 
         const acidenteFilter = (row) => acidenteFiltersValues.every((column) => row.properties[column].toString() == "0");
@@ -172,7 +173,6 @@
       // Return coordinates of points according to selected filters.
       geoJson2heat = function(geojson) {
         const coordinates = (feature) => [parseFloat(feature.geometry.coordinates[1]), parseFloat(feature.geometry.coordinates[0])];
-        console.log(getFilteredValues(geojson).length);
         return getFilteredValues(geojson).map(coordinates);
       }
 
