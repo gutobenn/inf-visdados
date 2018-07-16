@@ -170,6 +170,10 @@
 
       .navbar-brand { font-size: 1.85rem; }
 
+.nav-tabs .nav-link:focus,
+.nav-tabs .nav-link:active {
+	outline: none;
+}
 
 /* RADIAL */
   	.title {
