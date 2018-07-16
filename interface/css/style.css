@@ -11,9 +11,9 @@
       .sidebar-sticky h5 {
         margin-top: 15px;
         text-transform: uppercase;
-        font-size: 1.4rem;
+        font-size: 0.87rem;
         font-weight: bold;
-        letter-spacing: 0.15rem;
+        letter-spacing: 0.08rem;
       }
       .sidebar-sticky label {
         margin-bottom: 0.3rem;
@@ -120,55 +120,55 @@
 	  background: #367ebd;
 	}
 
-        #trafficAccidents .timeLabel, .dayLabel {
-		    font-size: 1.6rem;
+        .heatmapclass .timeLabel, .dayLabel {
+		    font-size: 1rem;
 		    fill: #AAAAAA;
 		    font-weight: 300;
 		}
 
-		#trafficAccidents .text.axis-workweek, text.axis-worktime {
+		.heatmapclass .text.axis-workweek, text.axis-worktime {
 		    fill: #404040;
 		    font-weight: 400;
 		}
 
-		#trafficAccidents .title {
-		    font-size: 2.8rem;
+		.heatmapclass .title {
+		    font-size: 1.5rem;
 		    fill: #4F4F4F;
 		    font-weight: 300;
 		}
 
-		#trafficAccidents .subtitle {
-		    font-size: 1.4rem;
+		.heatmapclass .subtitle {
+		    font-size: 0.7rem;
 		    fill: #AAAAAA;
 		    font-weight: 300;
 		}
 		  
-		#trafficAccidents .credit {
+		.heatmapclass .credit {
 		    font-size: 1.2rem;
 		    fill: #AAAAAA;
 		    font-weight: 400;
 		}
 
-		#trafficAccidents .axis path, .axis tick, .axis line {
+		.heatmapclass .axis path, .axis tick, .axis line {
 		      fill: none;
 		      stroke: none;
 		  }
 
-		#trafficAccidents text {
-		      font-size: 1.2rem;
+		.heatmapclass text {
+		      font-size: 0.9rem;
 		      fill: #AAAAAA;
 		      font-weight: 400;
 		}
 
-		#trafficAccidents .legendTitle {
-		      font-size: 1.6rem;
+		.heatmapclass .legendTitle {
+		      font-size: 1rem;
 		      fill: #4F4F4F;
 		      font-weight: 300;
 		}
 
 
 
-      .navbar-brand { font-size: 1.85rem; }
+      .navbar-brand { font-size: 1.1rem; padding-top: 0.55rem; padding-bottom: 0.45rem;}
 
 .nav-tabs .nav-link:focus,
 .nav-tabs .nav-link:active {

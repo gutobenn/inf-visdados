@@ -1,6 +1,6 @@
 // referencia = http://bl.ocks.org/nbremer/62cf60e116ae821c06602793d265eaf6
 
-loadHeatBlock = function() {
+loadVehiclesHeatBlock = function() {
 ///////////////////////////////////////////////////////////////////////////
 //////////////////// Set up and initiate svg containers ///////////////////
 ///////////////////////////////////////////////////////////////////////////	
@@ -19,11 +19,11 @@ var width = Math.max(Math.min(window.innerWidth, 1000), 500) - margin.left - mar
 	gridSize = Math.floor(width / times.length),
 	height = gridSize * (days.length+2);
 
-d3.select("#trafficAccidents").remove(); // Clean if already rendered before
-d3.select("#trafficAccidentsContainer").append('div').attr('id', 'trafficAccidents'); 
+d3.select("#vehiclesTrafficAccidents").remove(); // Clean if already rendered before
+d3.select("#vehiclesTrafficAccidentsContainer").append('div').attr('id', 'vehiclesTrafficAccidents'); 
 
 //SVG container
-var svg = d3.select('#trafficAccidents')
+var svg = d3.select('#vehiclesTrafficAccidents')
 	.append("svg")
 	.attr("width", width + margin.left + margin.right)
 	.attr("height", height + margin.top + margin.bottom)
@@ -37,10 +37,19 @@ var svg = d3.select('#trafficAccidents')
 	
 //Based on the heatmap example of: http://blockbuilder.org/milroc/7014412
 
-var colorScale = d3.scale.linear()
-	.domain([0, d3.max(accidents, function(d) {return d.count; })/2, d3.max(accidents, function(d) {return d.count; })])
+/*var colorScale = d3.scale.linear()
+	.domain([0, d3.max(vehiclesAccidents, function(d) {return d.count; })/2, d3.max(vehiclesAccidents, function(d) {return d.count; })])
 	.range(["#FFFFDD", "#3E9583", "#1F2D86"])
-	//.interpolate(d3.interpolateHcl);
+	//.interpolate(d3.interpolateHcl);*/
+
+function toPaddedHexString(num, len) {
+    str = num.toString(16);
+    return "0".repeat(len - str.length) + str;
+}
+
+var colorScale = (carP, publicP, motorcycleP) => {
+    return("#" + toPaddedHexString(Math.floor(200*carP)+55, 2) + toPaddedHexString(Math.floor(200*publicP)+55, 2) + toPaddedHexString(Math.floor(200*motorcycleP)+55, 2));
+};
 
 var dayLabels = svg.selectAll(".dayLabel")
     .data(days)
@@ -63,7 +72,7 @@ var timeLabels = svg.selectAll(".timeLabel")
     .attr("class", function(d, i) { return ((i >= 8 && i <= 17) ? "timeLabel mono axis axis-worktime" : "timeLabel mono axis"); });
 
 var heatMap = svg.selectAll(".hour")
-    .data(accidents)
+    .data(vehiclesAccidents)
     .enter().append("rect")
     .attr("x", function(d) { return (d.hour - 1) * gridSize; })
     .attr("y", function(d) { return (d.day - 1) * gridSize; })
@@ -72,7 +81,7 @@ var heatMap = svg.selectAll(".hour")
     .attr("height", gridSize)
     .style("stroke", "white")
     .style("stroke-opacity", 0.6)
-    .style("fill", function(d) { return colorScale(d.count); });
+    .style("fill", function(d) { return colorScale(d.carPercentage, d.publicPercentage, d.motorcyclePercentage); });
 
 //Append title to the top
 svg.append("text")
@@ -80,54 +89,12 @@ svg.append("text")
     .attr("x", width/2)
     .attr("y", -90)
     .style("text-anchor", "middle")
-    .text("Número de acidentes por Dia e Hora");
+    .text("Veículos por Dia e Hora");
 svg.append("text")
 	.attr("class", "subtitle")
     .attr("x", width/2)
     .attr("y", -60)
     .style("text-anchor", "middle")
-
-//Append credit at bottom
-/*svg.append("text")
-	.attr("class", "credit")
-    .attr("x", width/2)
-    .attr("y", gridSize * (days.length+1) + 80)
-    .style("text-anchor", "middle")
-    .text("Based on Miles McCrocklin's Heatmap block");*/
-
-///////////////////////////////////////////////////////////////////////////
-//////////////// Create the gradient for the legend ///////////////////////
-///////////////////////////////////////////////////////////////////////////
-
-//Extra scale since the color scale is interpolated
-var countScale = d3.scale.linear()
-	.domain([0, d3.max(accidents, function(d) {return d.count; })])
-	.range([0, width])
-
-//Calculate the variables for the temp gradient
-var numStops = 10;
-countRange = countScale.domain();
-countRange[2] = countRange[1] - countRange[0];
-countPoint = [];
-for(var i = 0; i < numStops; i++) {
-	countPoint.push(i * countRange[2]/(numStops-1) + countRange[0]);
-}//for i
-
-//Create the gradient
-svg.append("defs")
-	.append("linearGradient")
-	.attr("id", "legend-traffic")
-	.attr("x1", "0%").attr("y1", "0%")
-	.attr("x2", "100%").attr("y2", "0%")
-	.selectAll("stop") 
-	.data(d3.range(numStops))                
-	.enter().append("stop") 
-	.attr("offset", function(d,i) { 
-		return countScale( countPoint[i] )/width;
-	})   
-	.attr("stop-color", function(d,i) { 
-		return colorScale( countPoint[i] ); 
-	});
 
 ///////////////////////////////////////////////////////////////////////////
 ////////////////////////// Draw the legend ////////////////////////////////
@@ -160,7 +127,7 @@ legendsvg.append("text")
 //Set scale for x-axis
 var xScale = d3.scale.linear()
 	 .range([-legendWidth/2, legendWidth/2])
-	 .domain([ 0, d3.max(accidents, function(d) { return d.count; })] );
+	 .domain([ 0, d3.max(vehiclesAccidents, function(d) { return d.count; })] );
 
 //Define x-axis
 var xAxis = d3.svg.axis()

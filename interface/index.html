@@ -49,6 +49,7 @@
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
               <a class="nav-item nav-link active" id="nav-map-tab" data-toggle="tab" href="#nav-map" role="tab" aria-controls="nav-map" aria-selected="true">Mapa</a>
               <a class="nav-item nav-link" id="nav-hours-tab" data-toggle="tab" href="#nav-hours" role="tab" aria-controls="nav-hours" aria-selected="false">Horários</a>
+              <a class="nav-item nav-link" id="nav-vehicles-tab" data-toggle="tab" href="#nav-vehicles" role="tab" aria-controls="nav-vehicles" aria-selected="false">Veículos</a>
               <a class="nav-item nav-link" id="nav-year-tab" data-toggle="tab" href="#nav-year" role="tab" aria-controls="nav-hours" aria-selected="false">Ano</a>
               <a class="nav-item nav-link" id="nav-summary-tab" data-toggle="tab" href="#nav-summary" role="tab" aria-controls="nav-summary" aria-selected="false">Resumo dos dados</a>
             </div>
@@ -60,6 +61,11 @@
             <div class="tab-pane fade" id="nav-hours" role="tabpanel" aria-labelledby="nav-hours-tab">
               <div id="trafficAccidentsContainer">
                 <div id="trafficAccidents"></div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="nav-vehicles" role="tabpanel" aria-labelledby="nav-vehicles-tab">
+              <div id="vehiclesTrafficAccidentsContainer">
+                <div id="vehiclesTrafficAccidents"></div>
               </div>
             </div>
             <div class="tab-pane fade" id="nav-year" role="tabpanel" aria-labelledby="nav-year-tab">
@@ -89,6 +95,7 @@
     <script src="./js/leaflet.js"></script>
     <script src="./js/leaflet-heat.js"></script>
     <script src="./js/d3_block_script.js"></script>
+    <script src="./js/d3_block_vehicles_script.js"></script>
     <script src="./js/radial.js"></script>
     <script src="./js/acidentes-2007.js"></script>
     <script src="./js/acidentes-2008.js"></script>
@@ -108,6 +115,7 @@
       // Global variables
       var heat = ""; // store heatmap layer
       var accidents = []; // used by heatmap block
+      var vehiclesAccidents = []; // used by vehicle heatmap block
       var dailyAccidents = [];
       var weatherBoston;
 
@@ -209,6 +217,38 @@
         loadHeatBlock();
       }
 
+      // Process data for Vehicles Heat Map Block
+      vehiclesBlockHeatData = function(geojson) {
+        const coordinates = (feature) => [parseFloat(feature.geometry.coordinates[1]), parseFloat(feature.geometry.coordinates[0])];
+        const days = ["SEGUNDA-FEIRA", "TERCA-FEIRA", "QUARTA-FEIRA", "QUINTA-FEIRA", "SEXTA-FEIRA", "SABADO", "DOMINGO"];
+        const hours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
+
+        const filteredValues = getFilteredValues(geojson);
+	      // TODO te mq ter habilitado eles
+
+        var result = [];
+        const dayFilter = (row) => row.properties["DIA_SEM"] == days[day];
+        const hourFilter = (row) => row.properties["FX_HORA"] == hours[hour];
+        const carFilter = (row) => row.properties["AUTO"] > 0 || row.properties["TAXI"] > 0;
+        const publicFilter = (row) => row.properties["LOTACAO"] > 0 || row.properties["ONIBUS_URB"] > 0 || row.properties["ONIBUS_MET"] > 0 || row.properties["ONIBUS_INT"] > 0;
+        const motorcycleFilter = (row) => row.properties["MOTO"] > 0;
+
+        for (var day = 0; day < days.length; day++){
+          dayAccidents = filteredValues.filter(dayFilter);
+
+          for (var hour = 0; hour < hours.length; hour++){
+            hourAccidents = dayAccidents.filter(hourFilter);
+            hourTotal = hourAccidents.length;
+	    carPercentage = hourAccidents.filter(carFilter).length / hourTotal;
+	    publicPercentage = hourAccidents.filter(publicFilter).length / hourTotal;
+	    motorcyclePercentage = hourAccidents.filter(motorcycleFilter).length / hourTotal;
+            result.push({day: day+1, hour: hour+1, carPercentage: carPercentage, publicPercentage: publicPercentage, motorcyclePercentage: motorcyclePercentage});
+          }
+        }
+        vehiclesAccidents = result;
+        loadVehiclesHeatBlock();
+      }
+
       // Process data for Daily graph
       dailyData = function(geojson) {
         const coordinates = (feature) => [parseFloat(feature.geometry.coordinates[1]), parseFloat(feature.geometry.coordinates[0])];
@@ -241,6 +281,7 @@
         heat = addObsToMap(anos[year], map);
 
         blockHeatData(anos[year]);
+        vehiclesBlockHeatData(anos[year]);
         dailyData(anos[year]);
       }
 
