@@ -91,12 +91,12 @@ svg.append("text")
     .style("text-anchor", "middle")
 
 //Append credit at bottom
-svg.append("text")
+/*svg.append("text")
 	.attr("class", "credit")
     .attr("x", width/2)
     .attr("y", gridSize * (days.length+1) + 80)
     .style("text-anchor", "middle")
-    .text("Based on Miles McCrocklin's Heatmap block");
+    .text("Based on Miles McCrocklin's Heatmap block");*/
 
 ///////////////////////////////////////////////////////////////////////////
 //////////////// Create the gradient for the legend ///////////////////////

@@ -49,6 +49,7 @@
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
               <a class="nav-item nav-link active" id="nav-map-tab" data-toggle="tab" href="#nav-map" role="tab" aria-controls="nav-map" aria-selected="true">Mapa</a>
               <a class="nav-item nav-link" id="nav-hours-tab" data-toggle="tab" href="#nav-hours" role="tab" aria-controls="nav-hours" aria-selected="false">Horários</a>
+              <a class="nav-item nav-link" id="nav-year-tab" data-toggle="tab" href="#nav-year" role="tab" aria-controls="nav-hours" aria-selected="false">Ano</a>
               <a class="nav-item nav-link" id="nav-summary-tab" data-toggle="tab" href="#nav-summary" role="tab" aria-controls="nav-summary" aria-selected="false">Resumo dos dados</a>
             </div>
           </nav>
@@ -59,6 +60,11 @@
             <div class="tab-pane fade" id="nav-hours" role="tabpanel" aria-labelledby="nav-hours-tab">
               <div id="trafficAccidentsContainer">
                 <div id="trafficAccidents"></div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="nav-year" role="tabpanel" aria-labelledby="nav-year-tab">
+              <div id="weatherRadialContainer">
+                <div id="weatherRadial"></div>
               </div>
             </div>
             <div class="tab-pane fade" id="nav-summary" role="tabpanel" aria-labelledby="nav-summary-tab">
@@ -83,6 +89,7 @@
     <script src="./js/leaflet.js"></script>
     <script src="./js/leaflet-heat.js"></script>
     <script src="./js/d3_block_script.js"></script>
+    <script src="./js/radial.js"></script>
     <script src="./js/acidentes-2007.js"></script>
     <script src="./js/acidentes-2008.js"></script>
     <script src="./js/acidentes-2009.js"></script>
@@ -101,6 +108,8 @@
       // Global variables
       var heat = ""; // store heatmap layer
       var accidents = []; // used by heatmap block
+      var dailyAccidents = [];
+      var weatherBoston;
 
       // Elements on page
       var slider = document.getElementById("yearRange");
@@ -179,6 +188,31 @@
         loadHeatBlock();
       }
 
+      // Process data for Daily graph
+      dailyData = function(geojson) {
+        const coordinates = (feature) => [parseFloat(feature.geometry.coordinates[1]), parseFloat(feature.geometry.coordinates[0])];
+        const accidentsByDate = {};
+        weatherBoston = [];
+
+        const filteredValues = getFilteredValues(geojson);
+
+        for (var accident_index = 0; accident_index < filteredValues.length; accident_index++) {
+          fullDate = filteredValues[accident_index]["properties"]["ANO"] + "-" + filteredValues[accident_index]["properties"]["MES"] + "-" + filteredValues[accident_index]["properties"]["DIA"];
+
+          if (fullDate in accidentsByDate) {
+            accidentsByDate[fullDate]++;
+          } else {
+            accidentsByDate[fullDate] = 1;
+          }
+        }
+
+        dailyAccidents = accidentsByDate;
+        for (var ddate in dailyAccidents) {
+          weatherBoston.push({'date': ddate, 'max_temp': dailyAccidents[ddate], 'min_temp': 0});
+        };
+        loadRadial();
+      }
+
       // Reprocess all data when year or filters are changed.
       function loadYear() {
         var year = slider.value;
@@ -186,6 +220,7 @@
         heat = addObsToMap(anos[year], map);
 
         blockHeatData(anos[year]);
+        dailyData(anos[year]);
       }
 
       function generateWeatherConditionPlot(){
