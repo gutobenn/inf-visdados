@@ -77,7 +77,6 @@
               <div id="summary">
                 <div id="typeOfCar"></div>
                 <dir id="typeOfInjury"></dir>
-                <div id="typeOfWeather"></div>
                 <div id="typeOfRegion"></div>
                 <div id="typeOfLocal"></div>
               </div>
@@ -285,89 +284,27 @@
         dailyData(anos[year]);
       }
 
-      function generateWeatherConditionPlot(){
-
-        var data = [{
-          values: [3411, 24696, 3591],
-          labels: ['Chuvoso', 'Bom', 'Nublado'],
-          type: 'pie'
-        }];
-
-        var layout = {
-          title: 'Acidentes separados por condição climática (Agregado de 2015 e 2016)',
-        };
-
-        Plotly.newPlot('typeOfWeather', data, layout);
-
-      }
-
       function generateRegionPlot(){
 
-        var data = [{
-          values: [9900, 7238, 9282, 5270, 8],
-          labels: ['Norte', 'Sul', 'Leste', 'Centro', 'Não identificado'],
-          type: 'pie'
-        }];
+        var accidents2016 = [ 3834, 2966, 3548, 2162, 5 ];
+        var accidents2015 = [ 6066, 4272, 5734, 3108, 3 ];
+        var accidents2014 = [ 5476, 4050, 5010, 2666, 1 ];
+        var accidents2013 = [ 6415, 4681, 6478, 3217, 8 ];
+        var accidents2012 = [ 6177, 4571, 5929, 3516, 9 ];
+        var accidents2011 = [ 6908, 5077, 7353, 4216, 25 ];
+        var accidents2010 = [ 6177, 4571, 5929, 3516, 9 ];
+        var accidents2009 = [ 6783, 4656, 6804, 3865, 19 ];
+        var accidents2008 = [ 7130, 4470, 6869, 3803, 17 ];
+        var accidents2007 = [ 6867, 4458, 7066, 3828, 25 ]; 
 
-        var layout = {
-          title: 'Acidentes separados por região da cidade (Agregado de 2015 e 2016)',
-        };
-
-        Plotly.newPlot('typeOfRegion', data, layout);
-
-      }
-
-      function generateLocalPlot(){
-
-        var data = [{
-          values: [22761, 8932],
-          labels: ['Logradouro', 'Cruzamento'],
-          type: 'pie'
-        }];
-
-        var layout = {
-          title: 'Acidentes separados por local (Agregado de 2015 e 2016)',
-        };
-
-        Plotly.newPlot('typeOfLocal', data, layout);
-
-      }
-
-      function generateTypeOfInjuryPlot(){
-
-        var data = [{
-          values: [11218, 433, 91, 96, 187],
-          labels: ['Feridos', 'Feridos Grave', 'Mortes', 'Mortes pós acidente', 'Fatais'],
-          type: 'pie'
-        }];
-
-        var layout = {
-          title: 'Acidentes separados por ferimento (Agregado de 2015 e 2016)',
-        };
-
-        Plotly.newPlot('typeOfInjury', data, layout);
-
-       }
-
-      function generateStackBar() {
-
-        var accidents2016 = [17513, 1134, 275, 786, 154, 114, 1419, 2957, 0, 145];
-        var accidents2015 = [28444, 1739, 431, 996, 221, 205, 1951, 3462, 14, 164];
-
-        /*
-        d3.csv("acidentes-2014.csv", function(data){
+        /*d3.csv("acidentes-2014.csv", function(data){
 
             var totalSum = [
-               d3.sum(data.map(function(d){ return d.AUTO})),
-               d3.sum(data.map(function(d){ return d.TAXI})),
-               d3.sum(data.map(function(d){ return d.LOTACAO})), 
-               d3.sum(data.map(function(d){ return d.ONIBUS_URB})),
-               d3.sum(data.map(function(d){ return d.ONIBUS_MET})),
-               d3.sum(data.map(function(d){ return d.ONIBUS_INT})),
-               d3.sum(data.map(function(d){ return d.CAMINHAO})),
-               d3.sum(data.map(function(d){ return d.MOTO})),
-               d3.sum(data.map(function(d){ return d.CARROCA})),
-               d3.sum(data.map(function(d){ return d.BICICLETA})),
+               d3.sum(data.map(function(d){ if(d.REGIAO.localeCompare("NORTE") == 0){return 1}} )),
+               d3.sum(data.map(function(d){ if(d.REGIAO.localeCompare("SUL") == 0){return 1}} )),
+               d3.sum(data.map(function(d){ if(d.REGIAO.localeCompare("LESTE") == 0){return 1}} )), 
+               d3.sum(data.map(function(d){ if(d.REGIAO.localeCompare("CENTRO") == 0){return 1}} )),
+               d3.sum(data.map(function(d){ if(d.REGIAO.localeCompare("NAO IDENTIFICADO") == 0){return 1}} )),
                ];
 
             console.log(totalSum);
@@ -375,71 +312,249 @@
         });*/
 
         var trace1 = {
-          x: ['2015', '2016'],
-          y: [28444, 17513],
+          x: ['2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016'],
+          y: [6867, 7130, 6783, 6177, 6908, 6177, 6415, 5476, 6066, 3834],
+          name: 'Norte',
+          type: 'bar'
+        };
+
+        var trace2 = {
+          x: ['2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016'],
+          y: [4458, 4470, 4656, 4571, 5077, 4571, 4681, 4050, 4272, 2966],
+          name: 'Sul',
+          type: 'bar'
+        };
+
+        var trace3 = {
+          x: ['2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016'],
+          y: [7066, 6869, 6804, 5929, 7353, 5929, 6478, 5010, 5734, 3548],
+          name: 'Leste',
+          type: 'bar'
+        };
+
+        var trace4 = {
+          x: ['2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016'],
+          y: [3828, 3803, 3865, 3516, 4216, 3516, 3217, 2666, 3108, 2162],
+          name: 'Centro',
+          type: 'bar'
+        };
+
+        var trace5 = {
+          x: ['2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016'],
+          y: [25, 17, 19, 9, 25, 9, 8, 1, 3, 5],
+          name: 'Não Identificado',
+          type: 'bar'
+        };
+        
+        var data = [trace1, trace2, trace3, trace4, trace5];
+
+        var layout = {title: 'Acidentes separados por região da cidade', barmode: 'stack', xaxis: {type: 'category', title: 'Ano de ocorrência dos acidentes'}, yaxis: {title: 'Número de acidentes'}};
+
+        Plotly.newPlot('typeOfRegion', data, layout);
+
+      }
+
+      function generateLocalPlot(){
+
+        var accidents2016 = [ 8518, 3997 ];
+        var accidents2015 = [ 14246, 4937 ];
+        var accidents2014 = [ 11743, 5460 ];
+        var accidents2013 = [ 14291, 6508 ];
+        var accidents2012 = [ 13836, 6366 ];
+        var accidents2011 = [ 16231, 7348 ];
+        var accidents2010 = [ 17377, 8097 ];
+        var accidents2009 = [ 14179, 7948 ];
+        var accidents2008 = [ 14023, 8266 ];
+        var accidents2007 = [ 14201, 8043 ];
+
+        /*d3.csv("acidentes-2007.csv", function(data){
+
+            var totalSum = [
+               d3.sum(data.map(function(d){ if(d.LOCAL.localeCompare("Logradouro") == 0){return 1}} )),
+               d3.sum(data.map(function(d){ if(d.LOCAL.localeCompare("Cruzamento") == 0){return 1}} )),
+               ];
+
+            console.log(totalSum);
+
+        });*/
+
+        var trace1 = {
+          x: ['2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016'],
+          y: [14201, 14023, 14179, 17377, 16231, 13836, 14291, 11743, 14246, 8518],
+          name: 'Logradouro',
+          type: 'bar'
+        };
+
+        var trace2 = {
+          x: ['2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016'],
+          y: [8043, 8266, 7948, 8097, 7348, 6366, 6508, 5460, 4937, 3997],
+          name: 'Cruzamento',
+          type: 'bar'
+        };
+
+
+        var data = [trace1, trace2];
+
+        var layout = {title: 'Acidentes separados por local', barmode: 'stack', xaxis: {type: 'category', title: 'Ano de ocorrência dos acidentes'}, yaxis: {title: 'Número de acidentes'}};
+
+        Plotly.newPlot('typeOfLocal', data, layout);
+
+      }
+
+      function generateTypeOfInjuryPlot(){
+
+        var accidents2016 = [ 5066, 47, 45];
+        var accidents2015 = [ 6152, 44, 51 ];
+        var accidents2014 = [ 7395, 69, 2087 ];
+        var accidents2013 = [ 7941, 49, 75 ];
+        var accidents2012 = [ 7651, 51, 49 ];
+        var accidents2011 = [ 8228, 66, 75 ];
+        var accidents2010 = [ 8659, 85, 56 ];
+        var accidents2009 = [ 7150, 78, 90 ];
+        var accidents2008 = [ 6738, 61, 83 ];
+        var accidents2007 = [ 7414, 78, 73 ];
+
+        /*
+        d3.csv("acidentes-2007.csv", function(data){
+
+            var totalSum = [
+               d3.sum(data.map(function(d){ return d.FERIDOS } )),
+               d3.sum(data.map(function(d){ return d.MORTES } )),
+               d3.sum(data.map(function(d){ return d.MORTE_POST } )), 
+               ];
+
+            console.log(totalSum);
+
+        });*/
+
+        var trace1 = {
+          x: ['2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016'],
+          y: [7414, 6738, 7150, 8659, 8228, 7651, 7941, 7395, 6152, 5066],
+          name: 'Feridos',
+          type: 'bar'
+        };
+
+        var trace2 = {
+          x: ['2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016'],
+          y: [78, 61, 78, 85, 66, 51, 49, 69, 44, 47],
+          name: 'Mortes',
+          type: 'bar'
+        };
+
+        var trace3 = {
+          x: ['2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016'],
+          y: [73, 83, 90, 56, 75, 49, 75, 2087, 51, 45],
+          name: 'Mortes pós acidente',
+          type: 'bar'
+        };
+
+        var data = [trace1, trace2, trace3];
+
+        var layout = {title: 'Acidentes separados por ferimento', barmode: 'stack', xaxis: {type: 'category', title: 'Ano de ocorrência dos acidentes'}, yaxis: {title: 'Número de acidentes'}};
+
+        Plotly.newPlot('typeOfInjury', data, layout);
+
+       }
+
+      function generateStackBar() {
+
+        var accidents2016 = [11090, 1098, 273, 778, 151, 113, 1375, 2877, 0, 144];
+        var accidents2015 = [17329, 1669, 430, 980, 216, 203, 1881, 3351, 14, 164];
+        var accidents2014 = [14942, 1528, 354, 995, 195, 169, 2033, 4079, 15, 213];
+        var accidents2013 = [18392, 1982, 449, 1112, 215, 197, 2202, 4466, 23, 196];
+        var accidents2012 = [17677, 1919, 434, 1101, 0, 515, 2682, 4388, 27, 220];
+        var accidents2011 = [20802, 2250, 486, 1242, 0, 677, 3026, 4986, 41, 234];
+        var accidents2010 = [22422, 2461, 527, 1426, 0, 662, 3338, 5302, 44, 263]
+        var accidents2009 = [19605, 2138, 496, 1231, 0, 597, 2718, 4359, 41, 276];
+        var accidents2008 = [19827, 2082, 512, 1320, 0, 594, 2920, 4008, 64, 272];
+        var accidents2007 = [19654, 1895, 526, 1259, 0, 593, 2810, 4227, 62, 354];
+
+
+        /*d3.csv("acidentes-2013.csv", function(data){
+
+            var totalSum = [
+               d3.sum(data.map(function(d){ if(d.AUTO >= 1){return 1} else {return 0}} )),
+               d3.sum(data.map(function(d){ if(d.TAXI >= 1){return 1} else {return 0}})),
+               d3.sum(data.map(function(d){ if(d.LOTACAO >= 1){return 1} else {return 0}})), 
+               d3.sum(data.map(function(d){ if(d.ONIBUS_URB >= 1){return 1} else {return 0}})),
+               d3.sum(data.map(function(d){ if(d.ONIBUS_MET >= 1){return 1} else {return 0}})),
+               d3.sum(data.map(function(d){ if(d.ONIBUS_INT >= 1){return 1} else {return 0}})),
+               d3.sum(data.map(function(d){ if(d.CAMINHAO >= 1){return 1} else {return 0}})),
+               d3.sum(data.map(function(d){ if(d.MOTO >= 1){return 1} else {return 0}})),
+               d3.sum(data.map(function(d){ if(d.CARROCA >= 1){return 1} else {return 0}})),
+               d3.sum(data.map(function(d){ if(d.BICICLETA >= 1){return 1} else {return 0}})),
+               ];
+
+            console.log(totalSum);
+
+        });*/
+
+        var trace1 = {
+          x: ['2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016'],
+          y: [19654, 19827, 19605, 22422, 20802, 17677, 18392, 14942, 17329, 11090],
           name: 'Auto',
           type: 'bar'
         };
 
         var trace2 = {
-          x: ['2015', '2016'],
-          y: [1739, 1134],
+          x: ['2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016'],
+          y: [1895, 2082, 2138, 2461, 2250, 1919, 1982, 1528, 1669, 1098],
           name: 'Táxi',
           type: 'bar'
         };
 
         var trace3 = {
-          x: ['2015', '2016'],
-          y: [431, 275],
+          x: ['2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016'],
+          y: [526, 512, 496, 527, 486, 434, 449, 354, 430, 273],
           name: 'Lotação',
           type: 'bar'
         };
 
         var trace4 = {
-          x: ['2015', '2016'],
-          y: [996, 786],
+          x: ['2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016'],
+          y: [1259, 1320, 1231, 1426, 1242, 1101, 1112, 995, 980, 778],
           name: 'Ônibus Urbano',
           type: 'bar'
         };
 
         var trace5 = {
-          x: ['2015', '2016'],
-          y: [221, 154],
+          x: ['2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016'],
+          y: [0, 0, 0, 0, 0, 0, 215, 195, 216, 151],
           name: 'Ônibus Metropolitano',
           type: 'bar'
         };
 
         var trace6 = {
-          x: ['2015', '2016'],
-          y: [205, 114],
+          x: ['2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016'],
+          y: [593, 594, 597, 662, 677, 515, 197, 169, 203, 113],
           name: 'Ônibus (outros)',
           type: 'bar'
         };
 
         var trace7 = {
-          x: ['2015', '2016'],
-          y: [1951, 1419],
+          x: ['2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016'],
+          y: [2810, 2920, 2718, 3338, 3026, 2682, 2202, 2033, 1881, 1375],
           name: 'Caminhão',
           type: 'bar'
         };
 
         var trace8 = {
-          x: ['2015', '2016'],
-          y: [3462, 2957],
+          x: ['2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016'],
+          y: [4227, 4008, 4359, 5302, 4986, 4388, 4466, 4079, 3351, 2877],
           name: 'Moto',
           type: 'bar'
         };
 
         var trace9 = {
-          x: ['2015', '2016'],
-          y: [0, 14],
+          x: ['2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016'],
+          y: [62, 64, 41, 44, 41, 27, 23, 15, 14, 0],
           name: 'Carroça',
           type: 'bar'
         };
 
         var trace10 = {
-          x: ['2015', '2016'],
-          y: [164, 145],
+          x: ['2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016'],
+          y: [354, 272, 276, 263, 234, 220, 196, 213, 164, 144],
           name: 'Bicicleta',
           type: 'bar'
         };
@@ -457,7 +572,6 @@
       output.innerHTML = slider.value;
       generateStackBar();
       generateTypeOfInjuryPlot();
-      generateWeatherConditionPlot();
       generateRegionPlot();
       generateLocalPlot();
       loadYear();
