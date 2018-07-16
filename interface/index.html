@@ -36,11 +36,11 @@
 	    <label><input type="checkbox" value="BICICLETA" id="bicicletaCheckbox" class="inputFilter" checked> Bicicleta</label><br><br>
 
 	    <h5>Acidentes</h5>
-	    <label><input type="checkbox" value="FERIDOS" id="feridosCheckbox" class="inputFilter" checked> Feridos</label><br>
-	    <label><input type="checkbox" value="FERIDOS_GR" id="feridosGravesCheckbox" class="inputFilter" checked> Feridos Graves</label><br>
-	    <label><input type="checkbox" value="MORTES" id="mortesCheckbox" class="inputFilter" checked> Mortes</label><br>
-	    <label><input type="checkbox" value="MORTE_POST" id="mortesPostCheckbox" class="inputFilter" checked> Morte Posterior</label><br>
-	    <label><input type="checkbox" value="FATAIS" id="fataisCheckbox" class="inputFilter" checked> Fatais</label><br>
+	    <label><input type="checkbox" value="FERIDOS" id="feridosCheckbox" class="inputFilterAcidente" checked> Feridos</label><br>
+	    <label><input type="checkbox" value="FERIDOS_GR" id="feridosGravesCheckbox" class="inputFilterAcidente" checked> Feridos Graves</label><br>
+	    <label><input type="checkbox" value="MORTES" id="mortesCheckbox" class="inputFilterAcidente" checked> Mortes</label><br>
+	    <label><input type="checkbox" value="MORTE_POST" id="mortesPostCheckbox" class="inputFilterAcidente" checked> Morte Posterior</label><br>
+	    <!--label><input type="checkbox" value="FATAIS" id="fataisCheckbox" class="inputFilterAcidente" checked> Fatais</label><br-->
           </div>
         </nav>
 
@@ -133,25 +133,46 @@
           loadYear();
 	});
       }
+      inputFilterFieldsAcidentes = document.getElementsByClassName("inputFilterAcidente");
+      for (var i = 0; i < inputFilterFieldsAcidentes.length; i++) {
+	inputFilterFieldsAcidentes[i].addEventListener('click', function () {
+          loadYear();
+	});
+      }
 
 
       /* DATA PROCESSING */
       // Return data according to selected filters
       getFilteredValues = function(geojson) {
         var inputFilters = document.getElementsByClassName("inputFilter");
-        var arrayFiltersValues = [];
+        var inputFiltersAcidente = document.getElementsByClassName("inputFilterAcidente");
+        var veiculoFiltersValues = [];
         for (var i = 0; i < inputFilters.length; i++) {
           if (inputFilters[i].checked)
-            arrayFiltersValues.push(inputFilters[i].value);
+            veiculoFiltersValues.push(inputFilters[i].value);
         }
 
-        const customFilter = (row) => arrayFiltersValues.some((column) => row.properties[column] > 0);
-        return geojson.features.filter(customFilter);
+        const veiculoFilter = (row) => veiculoFiltersValues.some((column) => row.properties[column] > 0);
+
+        var acidenteFiltersValues = [];
+        for (var i = 0; i < inputFiltersAcidente.length; i++) {
+          if (!inputFiltersAcidente[i].checked)
+            acidenteFiltersValues.push(inputFiltersAcidente[i].value);
+        }
+
+        const acidenteFilter = (row) => acidenteFiltersValues.every((column) => row.properties[column].toString() == "0");
+
+        if (acidenteFiltersValues.length > 0) {
+          return geojson.features.filter(veiculoFilter).filter(acidenteFilter);
+	} else {
+          return geojson.features.filter(veiculoFilter);
+	}
       }
 
       // Return coordinates of points according to selected filters.
       geoJson2heat = function(geojson) {
         const coordinates = (feature) => [parseFloat(feature.geometry.coordinates[1]), parseFloat(feature.geometry.coordinates[0])];
+        console.log(getFilteredValues(geojson).length);
         return getFilteredValues(geojson).map(coordinates);
       }
 
